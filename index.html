@@ -21,28 +21,48 @@
 
     /* ===== POSTER BACKGROUND ===== */
     .poster {
-      width: 100vw;                 /* Fit screen width */
-      height: 100vh;                /* Full canvas height */
+      width: 100vw;
+      height: 100vh;
       background-image: url("preview.jpeg"); /* YOUR BACKGROUND IMAGE */
-      background-size: cover;       /* Fill width, crop height if needed */
+      background-size: cover;
       background-position: center;
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
     /* ===== OVERLAY CARD ===== */
     .overlay {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 25px 60px;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 28px 60px;
       border-radius: 22px;
       text-align: center;
       color: #fff;
       max-width: 92%;
       box-shadow: 0 0 45px rgba(0, 0, 0, 0.7);
+      z-index: 2;
     }
 
-    /* ===== TEXT STYLES ===== */
+    /* ===== LIVE BADGE ===== */
+    .live-badge {
+      display: inline-block;
+      /* background: #d40000; */
+      color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      animation: liveBlink 1.4s infinite;
+    }
+
+    @keyframes liveBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ===== TEXT ===== */
     .title {
       font-size: 32px;
       font-weight: 800;
@@ -54,23 +74,34 @@
       opacity: 0.95;
     }
 
-    /* ===== FUND AMOUNT ===== */
+    /* ===== AMOUNT ===== */
     .amount {
-      font-size: 54px;              /* BIG & LIVE-READY */
+      position: relative;
+      font-size: 54px;
       font-weight: 900;
       color: #ffd700;
-      margin: 35px 0 20px;
+      margin: 30px 0 18px;
       animation: pulse 2.5s infinite;
       text-shadow: 0 0 18px rgba(255, 215, 0, 0.6);
+      overflow: hidden;
     }
 
-    .updated {
-      font-size: 16px;
-      opacity: 0.85;
-      margin-top: 10px;
+    .amount::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.5),
+        transparent
+      );
+      animation: shimmer 3.5s infinite;
     }
 
-    /* ===== PULSE ANIMATION ===== */
     @keyframes pulse {
       0% {
         transform: scale(1);
@@ -86,11 +117,17 @@
       }
     }
 
-    /* ===== SPINNING LOADER ===== */
+    @keyframes shimmer {
+      0% { left: -100%; }
+      60% { left: 120%; }
+      100% { left: 120%; }
+    }
+
+    /* ===== LOADER ===== */
     .loader {
-      margin: 25px auto 0;
-      width: 44px;
-      height: 44px;
+      margin: 18px auto 0;
+      width: 42px;
+      height: 42px;
       border: 4px solid rgba(255, 255, 255, 0.35);
       border-top: 4px solid #ffd700;
       border-radius: 50%;
@@ -98,25 +135,61 @@
     }
 
     @keyframes spin {
-      to {
-        transform: rotate(360deg);
+      to { transform: rotate(360deg); }
+    }
+
+    .updated {
+      font-size: 15px;
+      opacity: 0.85;
+      margin-top: 10px;
+    }
+
+    /* ===== FLOATING BUBBLES ===== */
+    .bubbles {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .bubbles span {
+      position: absolute;
+      bottom: -60px;
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 50%;
+      animation: bubble 18s infinite ease-in;
+    }
+
+    .bubbles span:nth-child(1) { left: 10%; animation-duration: 22s; }
+    .bubbles span:nth-child(2) { left: 25%; animation-duration: 18s; }
+    .bubbles span:nth-child(3) { left: 50%; animation-duration: 26s; }
+    .bubbles span:nth-child(4) { left: 70%; animation-duration: 20s; }
+    .bubbles span:nth-child(5) { left: 90%; animation-duration: 28s; }
+
+    @keyframes bubble {
+      0% {
+        transform: translateY(0) scale(0.6);
+        opacity: 0;
+      }
+      10% { opacity: 0.3; }
+      100% {
+        transform: translateY(-120vh) scale(1.2);
+        opacity: 0;
       }
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .title {
-        font-size: 30px;
-      }
-      .subtitle {
-        font-size: 18px;
-      }
-      .amount {
-        font-size: 56px;
-      }
-      .overlay {
-        padding: 30px 25px;
-      }
+      .title { font-size: 26px; }
+      .subtitle { font-size: 17px; }
+      .amount { font-size: 44px; }
+      .overlay { padding: 25px 24px; }
     }
   </style>
 </head>
@@ -124,7 +197,14 @@
 <body>
 
   <div class="poster">
+
+    <!-- Floating bubbles -->
+    <div class="bubbles">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
     <div class="overlay">
+
 
       <div class="title">
         🎓 Polegoda Maha Vidyalaya
@@ -132,6 +212,7 @@
 
       <div class="subtitle">
         Live Fund Collection
+        <div class="live-badge">🔴</div>
       </div>
 
       <!-- 🔴 CHANGE ONLY THIS VALUE -->
