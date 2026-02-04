@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Update Fund</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 16px;
+    }
+
+    button {
+      background: #d40000;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h3>Update Fund Amount</h3>
+  <input id="amount" type="number" placeholder="Enter amount" />
+  <button onclick="update()">Update</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  import {
+    getFirestore,
+    doc,
+    updateDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAg8w5sX-uE2Hnb-vAyHyCnsZakCoE81UY",
+    authDomain: "polegodaschool.firebaseapp.com",
+    projectId: "polegodaschool",
+    storageBucket: "polegodaschool.firebasestorage.app",
+    messagingSenderId: "1054750888989",
+    appId: "1:1054750888989:web:9f50967e156aa9735622f4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.update = async function () {
+    const value = Number(document.getElementById("amount").value);
+    if (!value) return alert("Enter amount");
+
+    await updateDoc(doc(db, "fund", "current"), {
+      amount: value,
+      updatedAt: serverTimestamp()
+    });
+
+    alert("Updated successfully");
+  };
+</script>
+
+</body>
+</html>

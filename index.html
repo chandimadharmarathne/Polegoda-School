@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Live Fund Status</title>
@@ -23,7 +24,8 @@
     .poster {
       width: 100vw;
       height: 100vh;
-      background-image: url("preview.jpeg"); /* YOUR BACKGROUND IMAGE */
+      background-image: url("preview.jpeg");
+      /* YOUR BACKGROUND IMAGE */
       background-size: cover;
       background-position: center;
       display: flex;
@@ -58,8 +60,15 @@
     }
 
     @keyframes liveBlink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
     }
 
     /* ===== TEXT ===== */
@@ -93,12 +102,10 @@
       left: -100%;
       width: 50%;
       height: 100%;
-      background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255, 255, 255, 0.5),
-        transparent
-      );
+      background: linear-gradient(120deg,
+          transparent,
+          rgba(255, 255, 255, 0.5),
+          transparent);
       animation: shimmer 3.5s infinite;
     }
 
@@ -107,10 +114,12 @@
         transform: scale(1);
         text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
       }
+
       50% {
         transform: scale(1.06);
         text-shadow: 0 0 32px rgba(255, 215, 0, 1);
       }
+
       100% {
         transform: scale(1);
         text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
@@ -118,9 +127,17 @@
     }
 
     @keyframes shimmer {
-      0% { left: -100%; }
-      60% { left: 120%; }
-      100% { left: 120%; }
+      0% {
+        left: -100%;
+      }
+
+      60% {
+        left: 120%;
+      }
+
+      100% {
+        left: 120%;
+      }
     }
 
     /* ===== LOADER ===== */
@@ -135,7 +152,9 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .updated {
@@ -166,18 +185,41 @@
       animation: bubble 18s infinite ease-in;
     }
 
-    .bubbles span:nth-child(1) { left: 10%; animation-duration: 22s; }
-    .bubbles span:nth-child(2) { left: 25%; animation-duration: 18s; }
-    .bubbles span:nth-child(3) { left: 50%; animation-duration: 26s; }
-    .bubbles span:nth-child(4) { left: 70%; animation-duration: 20s; }
-    .bubbles span:nth-child(5) { left: 90%; animation-duration: 28s; }
+    .bubbles span:nth-child(1) {
+      left: 10%;
+      animation-duration: 22s;
+    }
+
+    .bubbles span:nth-child(2) {
+      left: 25%;
+      animation-duration: 18s;
+    }
+
+    .bubbles span:nth-child(3) {
+      left: 50%;
+      animation-duration: 26s;
+    }
+
+    .bubbles span:nth-child(4) {
+      left: 70%;
+      animation-duration: 20s;
+    }
+
+    .bubbles span:nth-child(5) {
+      left: 90%;
+      animation-duration: 28s;
+    }
 
     @keyframes bubble {
       0% {
         transform: translateY(0) scale(0.6);
         opacity: 0;
       }
-      10% { opacity: 0.3; }
+
+      10% {
+        opacity: 0.3;
+      }
+
       100% {
         transform: translateY(-120vh) scale(1.2);
         opacity: 0;
@@ -186,10 +228,21 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .title { font-size: 26px; }
-      .subtitle { font-size: 17px; }
-      .amount { font-size: 44px; }
-      .overlay { padding: 25px 24px; }
+      .title {
+        font-size: 26px;
+      }
+
+      .subtitle {
+        font-size: 17px;
+      }
+
+      .amount {
+        font-size: 44px;
+      }
+
+      .overlay {
+        padding: 25px 24px;
+      }
     }
   </style>
 </head>
@@ -216,18 +269,58 @@
       </div>
 
       <!-- 🔴 CHANGE ONLY THIS VALUE -->
-      <div class="amount">
+      <!-- <div class="amount">
         Rs. 250,000.00
-      </div>
+      </div> -->
 
-      <div class="loader"></div>
+      <!-- <div class="loader"></div> -->
 
-      <div class="updated">
+      <!-- <div class="updated">
         Last updated: 2026-02-04 08:30 PM
-      </div>
+      </div> -->
+
+      <div class="amount" id="amount">Loading...</div>
+      <div class="updated" id="updated">Loading...</div>
 
     </div>
   </div>
+
+  <!-- 🔥 FIREBASE (MODULE VERSION) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  import {
+    getFirestore,
+    doc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAg8w5sX-uE2Hnb-vAyHyCnsZakCoE81UY",
+    authDomain: "polegodaschool.firebaseapp.com",
+    projectId: "polegodaschool",
+    storageBucket: "polegodaschool.firebasestorage.app",
+    messagingSenderId: "1054750888989",
+    appId: "1:1054750888989:web:9f50967e156aa9735622f4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 🔴 REAL-TIME LISTENER
+  const fundRef = doc(db, "fund", "current");
+
+  onSnapshot(fundRef, (docSnap) => {
+    if (!docSnap.exists()) return;
+
+    const data = docSnap.data();
+
+    document.getElementById("amount").innerText =
+      "Rs. " + data.amount.toLocaleString("en-LK") + ".00";
+
+    document.getElementById("updated").innerText =
+      "Last updated: " + data.updatedAt.toDate().toLocaleString("en-LK");
+  });
+</script>
 
 </body>
 </html>
