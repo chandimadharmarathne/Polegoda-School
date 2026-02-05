@@ -6,10 +6,11 @@
 <title>Live Fund Status</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-* {
-  box-sizing: border-box;
-}
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -37,73 +38,72 @@ body {
   top: 20px;
   left: 20px;
   width: 510px;
-  height: auto;
   z-index: 3;
-
   animation: logoGlow 2.5s ease-in-out infinite alternate;
 }
 
-/* ===== LOGO LIGHTING EFFECT ===== */
+/* ===== ANNIVERSARY LOGO ===== */
 .anniversary-logo {
   position: absolute;
   top: 20px;
   left: 20px;
   width: 110px;
-  height: auto;
   z-index: 3;
-
   animation: logoGlow 2.5s ease-in-out infinite alternate;
 }
 
+/* ===== GLOW ===== */
 @keyframes logoGlow {
-  from {
-    filter:
-      drop-shadow(0 0 5px rgba(255,215,0,0.3))
-      brightness(1);
-  }
-
-  to {
-    filter:
-      drop-shadow(0 0 20px rgba(255,215,0,0.9))
-      brightness(1.25);
-  }
+  from { filter: drop-shadow(0 0 6px rgba(255,215,0,0.3)); }
+  to { filter: drop-shadow(0 0 18px rgba(255,215,0,0.8)); }
 }
 
-/* ===== OVERLAY ===== */
+/* ===== ANNIVERSARY TEXT ===== */
+.anniversary-text {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  text-align: center;
+  z-index: 3;
+  font-family: 'Noto Sans Sinhala', serif;
+  font-style: italic;
+  color: white;
+}
+
+.anniversary-year {
+  font-size: 18px;
+}
+
+.anniversary-main {
+  font-size: 42px;
+  font-weight: 700;
+
+  background: linear-gradient(45deg,#fff,#ffd700,#fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: anniversaryGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes anniversaryGlow {
+  from { text-shadow: 0 0 8px rgba(255,215,0,0.4); }
+  to { text-shadow: 0 0 25px rgba(255,215,0,0.9); }
+}
+
+/* ===== CENTER CARD ===== */
 .overlay {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0,0,0,0.65);
   padding: 28px 60px;
   border-radius: 22px;
   text-align: center;
   color: #fff;
   max-width: 92%;
-  box-shadow: 0 0 45px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 45px rgba(0,0,0,0.7);
   z-index: 2;
 }
 
-/* ===== LIVE BADGE ===== */
-.live-badge {
-  display: inline-block;
-  font-size: 14px;
-  margin-bottom: 14px;
-  animation: liveBlink 1.4s infinite;
-}
-
-@keyframes liveBlink {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-/* ===== TEXT ===== */
-.title {
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 20px;
-}
+.title { font-size: 32px; font-weight: 800; }
+.subtitle { font-size: 20px; }
 
 /* ===== AMOUNT ===== */
 .amount {
@@ -113,7 +113,7 @@ body {
   color: #ffd700;
   margin: 30px 0 18px;
   animation: pulse 2.5s infinite;
-  text-shadow: 0 0 18px rgba(255, 215, 0, 0.6);
+  text-shadow: 0 0 18px rgba(255,215,0,0.6);
   overflow: hidden;
 }
 
@@ -124,12 +124,7 @@ body {
   left: -100%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,0.5),
-    transparent
-  );
+  background: linear-gradient(120deg,transparent,rgba(255,255,255,0.5),transparent);
   animation: shimmer 3.5s infinite;
 }
 
@@ -145,10 +140,31 @@ body {
   100% { left: 120%; }
 }
 
-.updated {
-  font-size: 15px;
-  opacity: 0.85;
-  margin-top: 10px;
+.updated { font-size: 15px; opacity: .85; }
+
+/* ===== BOTTOM HEADER ===== */
+.school-header {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 3;
+}
+
+.school-logo {
+  width: 70px;
+  animation: logoGlow 2.5s infinite alternate;
+}
+
+.school-text {
+  font-family: 'Noto Sans Sinhala', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
 }
 
 /* ===== BUBBLES ===== */
@@ -166,7 +182,7 @@ body {
   bottom: -60px;
   width: 12px;
   height: 12px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255,255,255,0.18);
   border-radius: 50%;
   animation: bubble 18s infinite ease-in;
 }
@@ -178,15 +194,46 @@ body {
 .bubbles span:nth-child(5){ left:90% }
 
 @keyframes bubble {
-  0% { transform: translateY(0); opacity:0 }
-  10% { opacity:0.3 }
+  0% { transform: translateY(0); opacity:0; }
+  10% { opacity:.3 }
   100% { transform: translateY(-120vh); opacity:0 }
 }
 
+/* ========================================================= */
+/* ================= MOBILE RESPONSIVE ====================== */
+/* ========================================================= */
+
 @media (max-width:768px){
-  .anniversary-logo { width:80px }
-  .title { font-size:26px }
-  .amount { font-size:44px }
+
+  .shape-shape { width:260px; }
+
+  .anniversary-logo { width:70px; }
+
+  .anniversary-main { font-size:26px; }
+
+  .anniversary-year { font-size:14px; }
+
+  .overlay { padding:22px 20px; }
+
+  .title { font-size:22px; }
+
+  .subtitle { font-size:16px; }
+
+  .amount { font-size:36px; }
+
+  .school-logo { width:45px; }
+
+  .school-text {
+    font-size:16px;
+    text-align:center;
+  }
+
+  .school-header {
+    flex-direction: column;
+    gap:6px;
+    bottom: 15px;
+  }
+
 }
 
 </style>
@@ -196,31 +243,33 @@ body {
 
 <div class="poster">
 
-  <!-- PNG Shape -->
-  <img src="100shape.png" class="shape-shape" />
+  <img src="100shape.png" class="shape-shape">
+  <img src="Anniversary.png" class="anniversary-logo">
 
-  <!-- PNG Logo -->
-  <img src="Anniversary.png" class="anniversary-logo" />
+  <div class="anniversary-text">
+    <div class="anniversary-main">දහස් වටින</div>
+    <div class="anniversary-year">1926 - 2026</div>
+    <div class="anniversary-main">සියක් වසක්...</div>
+  </div>
 
   <div class="bubbles">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
 
   <div class="overlay">
-
-    <div class="title">
-      🎓 Polegoda Maha Vidyalaya
-    </div>
-
-    <div class="subtitle">
-      Live Fund Collection
-      <div class="live-badge">🔴</div>
-    </div>
-
+    <div class="title">🎓 Polegoda Maha Vidyalaya</div>
+    <div class="subtitle">Live Fund Collection</div>
     <div class="amount" id="amount">Loading...</div>
     <div class="updated" id="updated">Loading...</div>
-
   </div>
+
+  <div class="school-header">
+    <img src="schoolLogo.png" class="school-logo">
+    <div class="school-text">
+      පොලේගොඩ මහා විද්‍යාලයීය සියවස් සැමරුම් උළෙල - 2026
+    </div>
+  </div>
+
 </div>
 
 <script type="module">
